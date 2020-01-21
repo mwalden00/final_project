@@ -133,7 +133,7 @@ void messenger(void * data) {
     char * msg = pop(q);
     pthread_mutex_unlock(q->mutex);
     pthread_cond_signal(q->notFull);
-    if (msg[0] == '[') printf("\r%s\n>>", msg);
+    if (msg[0] == '[') printf("\r%s\n>> ", msg);
     else printf("\r[SENDING MESSAGE] %s\n>> ", msg);
     fflush(stdout);
     for (i = 0; i < c_data->num_c; i++) {
