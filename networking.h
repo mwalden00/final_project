@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#include <signal.h>
 #include <fcntl.h>
 #include <pthread.h>
 

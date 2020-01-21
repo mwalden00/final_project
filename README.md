@@ -2,16 +2,16 @@
 by Maximilian Walden and Winston Peng
 Pd. 5
 
-TO USE:
+## TO USE:
 
 First, within the directory of our project, type <code>make</code> to build the server and client executables.
 
-   ## SERVER:
+### SERVER:
 1. On your desired server system, type <code>./server</code> to execute the server.
    The server simply allows clients to connect and communicate. Typing <code>/exit</code> while the server runs
    will shutdown the server.
 
-   ## CLIENT:
+### CLIENT:
 1. On your desired client system, type <code>./client [server ip] [username]</code>, where <code>[server ip]</code>
    is the target server's ip address and <code>[username]</code> is your server-wide username. Typing <code>/exit</code>
    will shutdown the client process and will log the client out of the server.
@@ -52,6 +52,9 @@ First, within the directory of our project, type <code>make</code> to build the 
   - The server itself has a hard time communicating with any client using a different protocol.
 
   - Clients receive messages they sent due to the structure of the server program.
+
+  - If the server shutdowns before the client(s), the clients will get stuck reading and printing the last message received from  
+    the server socket without stopping.
 
 ## DEVLOG:
 

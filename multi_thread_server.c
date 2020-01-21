@@ -31,7 +31,8 @@ int main()
   pthread_create(&message_t, NULL, (void *)&messenger, (void *)&data);
   printf("[MESSAGE THREAD CREATED]\n");
 
-  printf("Type \"/exit\" in at any time to shut down the server.\n");
+  printf("Type \"/exit\" in at any time to shut down the server.\n>>");
+  fflush(stdout);
   sleep(1);
   char std_buffer[BUFFER_SIZE];
   while(read(STDIN_FILENO, std_buffer, sizeof(std_buffer)))
