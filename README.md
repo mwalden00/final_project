@@ -11,14 +11,14 @@ First, within the directory of our project, type <code>make</code> to build the 
    The server simply allows clients to connect and communicate. Typing <code>/exit</code> while the server runs
    will shutdown the server.
 
-   ##CLIENT:
+   ## CLIENT:
 1. On your desired client system, type <code>./client [server ip] [username]</code>, where <code>[server ip]</code>
    is the target server's ip address and <code>[username]</code> is your server-wide username. Typing <code>/exit</code>
    will shutdown the client process and will log the client out of the server.
 2. Clients can send messages to the server by typing them in and hitting enter. Once a message is sent to the server,
    the server will send the message to all other clients.
 
-DESCRIPTION:
+## DESCRIPTION:
 
   Because the chat was going to be the main bulk of our mafia program, we decided to ditch mafia and focus entirely on a chat s
   server. The main challenge of this project is being able to simultaneously service all clients while having full access to each
@@ -43,7 +43,7 @@ DESCRIPTION:
   itself. Likewise, if a client types <code>"/exit"</code> into the terminal as its message, it will send the <code>SIGINT</code>
   to itself using <code>kill()</code>.    
 
-LIMITATIONS:
+## LIMITATIONS:
 
   - When a user is typing out a message, if they receive a message the received message is written over the message currently     
     being typed. On top of this, because a carriage return is used any input that was being typed out will still be written into
@@ -53,7 +53,7 @@ LIMITATIONS:
 
   - Clients receive messages they sent due to the structure of the server program.
 
-DEVLOG:
+## DEVLOG:
 
   - Jan 14: Attempt to implement client/client communication over a forking server.
   - Jan 16: Attempt to implement client/client communication over a multithreading server. Learn multithreading.
