@@ -22,32 +22,17 @@ First, within the directory of our project, type <code>make</code> to build the 
 
   Because the chat was going to be the main bulk of our mafia program, we decided to ditch mafia and focus entirely on a chat s
   server. The main challenge of this project is being able to simultaneously service all clients while having full access to each
-  client's communicating socket, as well as being able to have all clients receive and send messages at the same time.
+  client's communicating socket, as  well as being able to have all clients receive and send messages at the same time.
 
-  I found that forking proved to be too impractical for what I had in mind. The server uses multi-threading, a method for a
-  process to do multiple things at once. While similar to forking, threading does not create a new memory space or process ID for
-  each new thread, allowing threads to share memory and have the same process ID. To have synchronize thread, mutexes are used.
-  Mutexes allow a thread to block all other threads from accessing a piece of memory, allowing threads to "take turns" editing a
-  piece of memory. This was particularly useful for this project, as I also had to implement a queue structure for queuing up
-  messages. First, a connecting thread and message handling thread is created. Upon receiving a new connection, the connection
-  thread accepts the connection of the client and creates a new thread to queue up the messages received from that specific
-  client. The client message handling thread pops messages off of the queue and sends them to all clients.
+  We found that forking proved to be too impractical for what we had in mind. The server uses multi-threading, a method for a process to do multiple things at once. While similar to forking, threading does not create a new memory space or process ID for each new thread, allowing threads to share memory and have the same process ID. To have synchronize thread, mutexes are used. Mutexes allow a thread to block all other threads from accessing a piece of memory, allowing threads to "take turns" editing a piece of memory. This was particularly useful for this project, as we also had to implement a queue structure for queuing up messages. First, a connecting thread and message handling thread is created. Upon receiving a new connection, the connection thread accepts the connection of the client and creates a new thread to queue up the messages received from that specific client. The client message handling thread pops messages off of the queue and sends them to all clients.
 
-  On the client side, doing this was simply an extension of Mr. Dyrland-Weavers select_client.c code. <code>select()</code> is a
-  nifty method of recognizing when any file descriptor in a list of file descriptors is ready to be read from / written to. It
-  allows us to circumvent the usual blocking that is caused by <code>read()</code> and <code>fgets()</code>. The system waits for
-  either the standard input or server socket file descriptors to be ready for reading, and then does the required task from
-  there. However, I had to implement a way for a client to break connection without breaking my server code. To do this, I
-  implemented a way for the client to exit safely using <code>signal()</code>. If the client ever does a terminal interrupt
-  (<code>SIGINT</code>), the system will first send <code>"/exit"</code> to the server (signaling a server logout) and will kill
-  itself. If a client types <code>"/exit"</code> into the terminal as its message, or the server shutsdown, it will send the
-  <code>SIGINT</code> to itself using <code>kill()</code>.
+  On the client side, doing this was simply an extension of Mr. Dyrland- Weavers select_client.c code. <code>select()</code> is a nifty method of recognizing when any file descriptor in a list of file descriptors is ready to be read from / written to. It allows us to circumvent the usual blocking that is caused by <code>read()</code> and <code>fgets()</code>. The system waits for either the standard input or server socket file descriptors to be ready for reading, and then does the required task from there. However, we had to implement a way for a client to break connection without breaking my server code. To do this, we implemented a way for the client to exit safely using <code>signal()</code>. If the client ever does a terminal interrupt (<code>SIGINT</code>), the system will first send <code>"/exit"</code> to the server (signaling a server logout) and will kill itself. If a client types <code>"/exit"</code> into the terminal as its message, or the server shutsdown, it will send the <code>SIGINT</code> to itself using <code>kill()</code>.
 
 ## LIMITATIONS:
 
   - When a user is typing out a message, if they receive a message the received message is written over the message currently     
-    being typed. On top of this, because a carriage return is used any input that was being typed out will still be written into
-    standard in and read into a message.
+  being typed. On top of this, because a carriage return is used any input that was being typed out will still be written into
+  standard in and read into a message.
 
   - The server itself has a hard time communicating with any client using a different protocol.
 
