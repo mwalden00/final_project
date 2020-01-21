@@ -95,6 +95,10 @@ void * client(void * data) {
   Queue * queue = c_data->queue;
 
   int c_socket = client_data->c_socket;
+  pthread_mutex_lock(queue->mutex);
+  push(queue, "[SERVER ANNOUNCMENT] -> Client has entered the server");
+  pthread_mutex_unlock(queue->mutex);
+  pthread_cond_signal(queue->notEmpty);
   while (1) {
     char buffer[BUFFER_SIZE];
     read(c_socket, buffer, sizeof(buffer));

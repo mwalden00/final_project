@@ -28,7 +28,7 @@ int main(int argc, char * argv[]) {
       if (FD_ISSET(server_socket, &read_fds)) {
         read(server_socket, buffer, sizeof(buffer));
         if (buffer[0] == '[') printf("\r%s\n>> ", buffer);
-        printf("\rRecieved from %s\n>> ", buffer);
+        else printf("\rReceived from %s\n>> ", buffer);
         fflush(stdout);
       }
       if (FD_ISSET(STDIN_FILENO, &read_fds)) {
