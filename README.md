@@ -40,8 +40,8 @@ First, within the directory of our project, type <code>make</code> to build the 
   there. However, I had to implement a way for a client to break connection without breaking my server code. To do this, I
   implemented a way for the client to exit safely using <code>signal()</code>. If the client ever does a terminal interrupt
   (<code>SIGINT</code>), the system will first send <code>"/exit"</code> to the server (signaling a server logout) and will kill
-  itself. Likewise, if a client types <code>"/exit"</code> into the terminal as its message, it will send the <code>SIGINT</code>
-  to itself using <code>kill()</code>.    
+  itself. If a client types <code>"/exit"</code> into the terminal as its message, or the server shutsdown, it will send the
+  <code>SIGINT</code> to itself using <code>kill()</code>.
 
 ## LIMITATIONS:
 
@@ -52,9 +52,6 @@ First, within the directory of our project, type <code>make</code> to build the 
   - The server itself has a hard time communicating with any client using a different protocol.
 
   - Clients receive messages they sent due to the structure of the server program.
-
-  - If the server shutdowns before the client(s), the clients will get stuck reading and printing the last message received from  
-    the server socket without stopping.
 
 ## DEVLOG:
 
