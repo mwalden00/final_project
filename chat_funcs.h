@@ -65,3 +65,4 @@ char * pop(Queue * q);
 void accept_client(void * data);
 void * client(void * data);
 void messenger(void * data);
+void read_input(void * data);

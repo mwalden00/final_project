@@ -144,3 +144,22 @@ void messenger(void * data) {
     }
   }
 }
+
+void read_input(void * data) {
+  ChatData * c_data = (ChatData *)data;
+  Queue * q = c_data->queue;
+
+  char std_buffer[BUFFER_SIZE];
+  while(read(STDIN_FILENO, std_buffer, sizeof(std_buffer))) {
+    char msg[BUFFER_SIZE];
+    *strchr(std_buffer, '\n') = 0;
+    if (strcmp(std_buffer,"/exit") == 0) exit(1);
+    sprintf(msg, "[SERVER ANNOUNCMENT] -> %s", std_buffer);
+    fflush(stdout);
+    while(q->full) pthread_cond_wait(q->notFull, q->mutex);
+    pthread_mutex_lock(q->mutex);
+    push(q, msg);
+    pthread_mutex_unlock(q->mutex);
+    pthread_cond_signal(q->notEmpty);
+  }
+}

@@ -26,7 +26,10 @@ int main(int argc, char * argv[]) {
     FD_SET(STDIN_FILENO, &read_fds);
     if (select(server_socket+1, &read_fds, NULL, NULL, NULL)) {
       if (FD_ISSET(server_socket, &read_fds)) {
-        read(server_socket, buffer, sizeof(buffer));
+        if (!read(server_socket, buffer, sizeof(buffer))) {
+          printf("\r[Server shutdown, exiting...]");
+          kill(getpid(), SIGINT);
+        }
         if (buffer[0] == '[') printf("\r%s\n>> ", buffer);
         else printf("\rReceived from %s\n>> ", buffer);
         fflush(stdout);
@@ -48,7 +51,7 @@ void client_sighandle(int sig) {
     if (write(server_socket, "/exit", 6) < 1)
       perror("[WRITING TO SOCKET]");
     close(server_socket);
-    printf("\n\n");
+    printf("\n");
     exit(1);
     }
 }
