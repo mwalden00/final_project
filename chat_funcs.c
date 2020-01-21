@@ -81,7 +81,7 @@ void accept_client(void * data) {
       pthread_t client_t;
       if (pthread_create(&client_t, NULL, (void *)&client, (void *)&c_handle) == 0) {
         c_data->num_c++;
-        printf("[CLIENT %d HAS JOINED]\n", c_socket);
+        printf("\r[CLIENT %d HAS JOINED]\n>> ", c_socket);
       } else close(c_socket);
     }
     pthread_mutex_unlock(c_data->c_sockets_mutex);
@@ -100,7 +100,7 @@ void * client(void * data) {
     while(queue->full) pthread_cond_wait(queue->notFull, queue->mutex);
     // Lock queue mutex to function, push message onto the queue.
     if (strcmp(buffer, "/exit\n") == 0 || strcmp(buffer, "/exit") == 0) {
-      printf("[CLIENT %d DISCONNECTED]\n", c_socket);
+      printf("\r[CLIENT %d DISCONNECTED]\n>> ", c_socket);
       disconnect(c_data, c_socket);
       return NULL;
     }
@@ -122,7 +122,7 @@ void messenger(void * data) {
     char * msg = pop(q);
     pthread_mutex_unlock(q->mutex);
     pthread_cond_signal(q->notFull);
-    printf("[SENDING MESSAGE \"%s\"]\n", msg);
+    printf("\r[SENDING MESSAGE \"%s\"]\n>> ", msg);
     for (i = 0; i < c_data->num_c; i++) {
       int c_socket = c_sockets[i];
       if (FD_ISSET(c_socket, &(c_data->s_read_fds)) && write(c_socket, msg, BUFFER_SIZE - 1) < 0) {
