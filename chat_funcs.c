@@ -95,6 +95,7 @@ void * client(void * data) {
   Queue * queue = c_data->queue;
 
   int c_socket = client_data->c_socket;
+  while(queue->full) pthread_cond_wait(queue->notFull, queue->mutex);
   pthread_mutex_lock(queue->mutex);
   push(queue, "[SERVER ANNOUNCMENT] -> Client has entered the server");
   pthread_mutex_unlock(queue->mutex);
@@ -132,7 +133,8 @@ void messenger(void * data) {
     char * msg = pop(q);
     pthread_mutex_unlock(q->mutex);
     pthread_cond_signal(q->notFull);
-    printf("\r[SENDING MESSAGE] %s\n>> ", msg);
+    if (msg[0] == '[') printf("\r%s\n>>", msg);
+    else printf("\r[SENDING MESSAGE] %s\n>> ", msg);
     fflush(stdout);
     for (i = 0; i < c_data->num_c; i++) {
       int c_socket = c_sockets[i];
