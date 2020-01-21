@@ -14,30 +14,27 @@ int main(int argc, char * argv[]) {
     printf("./client [ip address] [username]\n");
     exit(1);
   }
-  printf("\nType messages into the terminal and hit [enter] to send\nSend \"/exit\" to exit\n>> ");
-  fflush(stdout);
+  printf("Send \"/exit\" to exit\n");
   server_socket = client_setup(argv[1]);
   // use client_sighandle to handle ^C interrupts
   signal(SIGINT, client_sighandle);
   name = argv[2];
+  printf(">> ");
   while(1) {
     FD_ZERO(&read_fds);
     FD_SET(server_socket, &read_fds);
     FD_SET(STDIN_FILENO, &read_fds);
     if (select(server_socket+1, &read_fds, NULL, NULL, NULL)) {
       if (FD_ISSET(server_socket, &read_fds)) {
-        if (!read(server_socket, buffer, sizeof(buffer))) {
-          printf("\r[Server shutdown, exiting...]");
-          kill(getpid(), SIGINT);
-        }
-        if (buffer[0] == '[') printf("\r%s\n>> ", buffer);
-        else printf("\rReceived from %s\n>> ", buffer);
+        read(server_socket, buffer, sizeof(buffer));
+        printf("\rRecieved from %s\n>> ", buffer);
         fflush(stdout);
+        fflush(stdin);
       }
       if (FD_ISSET(STDIN_FILENO, &read_fds)) {
         fgets(buffer, sizeof(buffer), stdin);
         *strchr(buffer, '\n') = 0;
-        if (strcmp(buffer, "/exit") == 0) kill(getpid(), SIGINT);
+        if (strcmp(buffer, "/exit") == 0) client_sighandle(SIGINT);
         char to_send[BUFFER_SIZE];
         sprintf(to_send, "%s: %s", name, buffer);
         write(server_socket, to_send, sizeof(to_send));
@@ -51,7 +48,6 @@ void client_sighandle(int sig) {
     if (write(server_socket, "/exit", 6) < 1)
       perror("[WRITING TO SOCKET]");
     close(server_socket);
-    printf("\n");
     exit(1);
     }
 }
