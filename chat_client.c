@@ -19,7 +19,7 @@ int main(int argc, char * argv[]) {
   // use client_sighandle to handle ^C interrupts
   signal(SIGINT, client_sighandle);
   name = argv[2];
-
+  printf(">> ");
   while(1) {
     FD_ZERO(&read_fds);
     FD_SET(server_socket, &read_fds);
@@ -27,8 +27,9 @@ int main(int argc, char * argv[]) {
     if (select(server_socket+1, &read_fds, NULL, NULL, NULL)) {
       if (FD_ISSET(server_socket, &read_fds)) {
         read(server_socket, buffer, sizeof(buffer));
-        printf("Recieved from %s\n>> ", buffer);
+        printf("\rRecieved from %s\n>> ", buffer);
         fflush(stdout);
+        fflush(stdin);
       }
       if (FD_ISSET(STDIN_FILENO, &read_fds)) {
         fgets(buffer, sizeof(buffer), stdin);
