@@ -52,17 +52,3 @@ First, within the directory of our project, type <code>make</code> to build the 
   - The server itself has a hard time communicating with any client using a different protocol.
 
   - Clients receive messages they sent due to the structure of the server program.
-
-## DEVLOG:
-
-  - Jan 14: Attempt to implement client/client communication over a forking server.
-  - Jan 16: Attempt to implement client/client communication over a multithreading server. Learn multithreading.
-  - Jan 17: Learn and test multithreading. Successfully implemented a threading program that connects clients.
-  - Jan 18: Learn and test multithreading. Successfully implemented a mutex utilizing struct-editing program.
-            Attempted to utilize forking in the chat system one last time before giving up.
-            Implemented chat functions using queue.
-  - Jan 19: Modified Mr. Dyrland-Weaver's networking code to accommodate threading.
-            Successfully implemented message-handling thread and connecting thread in tandem with only a couple major bugs.
-  - Jan 20: Fixed critical issues with networking code (client exiting issues, accessing broken pipes, attempting to write into
-            non-existent file descriptors).
-  - Jan 21: Fixed minor bugs and prepped for submission.

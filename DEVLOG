@@ -1,0 +1,11 @@
+- Jan 14: WINSTON: Attempt to implement client/client communication over a forking server.
+- Jan 16: MAX + WINSTON: Attempt to implement client/client communication over a multithreading server. Learn multithreading.
+- Jan 17: WINSTON: Learn and test multithreading. Successfully implemented a threading program that connects clients.
+- Jan 18: MAX + WINSTON: Learn and test multithreading. Successfully implemented a mutex utilizing struct-editing program.
+          Attempted to utilize forking in the chat system one last time before giving up.
+          Implemented chat functions using queue.
+- Jan 19: MAX: Modified Mr. Dyrland-Weaver's networking code to accommodate threading.
+          Successfully implemented message-handling thread and connecting thread in tandem with only a couple major bugs.
+- Jan 20: MAX + WINSTON: Fixed critical issues with networking code (client exiting issues, accessing broken pipes, attempting to write into
+          non-existent file descriptors).
+- Jan 21: MAX: Fixed minor bugs and prepped for submission.
