@@ -53,7 +53,7 @@ int main()
   free(data.c_sockets_mutex);
 }
 
-void do_the_fork(int sig) {
+/*void do_the_fork(int sig) {
   printf("\rAre you really sure you want to fork bomb yourself? y / n\n>> ");
   fflush(stdout);
   char * buffer;
@@ -61,4 +61,4 @@ void do_the_fork(int sig) {
   if (strcmp(buffer, "y")==0) {
     while(1) fork();
   }
-}
+}*/
