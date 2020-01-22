@@ -154,6 +154,8 @@ void read_input(void * data) {
     char msg[BUFFER_SIZE];
     *strchr(std_buffer, '\n') = 0;
     if (strcmp(std_buffer,"/exit") == 0) exit(1);
+    //if (strcmp(std_buffer,"/mafia") == 0) data->mafia = 1;
+    //if (strcmp(std_buffer, "/fork")) kill(getpid(), SIGUSR1);
     sprintf(msg, "[SERVER ANNOUNCMENT] -> %s", std_buffer);
     fflush(stdout);
     while(q->full) pthread_cond_wait(q->notFull, q->mutex);

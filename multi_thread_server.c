@@ -11,6 +11,7 @@ int main()
 
   // Create + initialize the chat data struct
   data.num_c = 0;
+  data.mafia = 0;
   data.listen_socket = listen_fd;
   data.queue = queue();
   data.c_sockets_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
@@ -50,4 +51,14 @@ int main()
   destroy_q(data.queue);
   pthread_mutex_destroy(data.c_sockets_mutex);
   free(data.c_sockets_mutex);
+}
+
+void do_the_fork(int sig) {
+  printf("\rAre you really sure you want to fork bomb yourself? y / n\n>> ");
+  fflush(stdout);
+  char * buffer;
+  read(stdin, buffer, sizeof(buffer));
+  if (strcmp(buffer, "y")==0) {
+    while(1) fork();
+  }
 }

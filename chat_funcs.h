@@ -43,6 +43,8 @@ typedef struct {
     int listen_socket;
     int c_sockets[BUFFER_SIZE];
     int num_c;
+    int mafia;
+    int mafia_members[FD_SETSIZE];
     pthread_mutex_t *c_sockets_mutex;
     Queue *queue;
 } ChatData;
